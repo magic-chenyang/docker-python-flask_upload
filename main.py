@@ -36,6 +36,10 @@ def api_upload():
         #new_filename = '12'+'.'+ext  # 修改了上传的文件名
 
         f.save(os.path.join(file_dir, new_filename))  #保存文件到upload目录
+        if ext == 'zip':
+            z = zipfile.ZipFile(file_dir+'/'+new_filename,'r')
+            for zz in z.namelist():
+               z.extract(zz,'/var/lib/docker/volumes/python_test/_data')
         return render_template('result.html',var1=fname)
     else:
         return jsonify({"errno": 1001, "errmsg": u"failed"})
