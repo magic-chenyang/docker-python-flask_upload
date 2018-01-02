@@ -14,4 +14,11 @@
 - Docker-py API=1.32
 - OS=Ubuntu16.04
 
+1. 首先选择本地文件，然后upload上传。
 ![Image text](https://github.com/magic-chenyang/docker-python-flask_upload/blob/master/images/1.png)
+2. 显示上传成功，点击RUN按钮，启动容器执行。
+![Image text](https://github.com/magic-chenyang/docker-python-flask_upload/blob/master/images/2.png)
+3. 显示error，表示上传文件格式不允许，需要后退重新选择。
+![Image text](https://github.com/magic-chenyang/docker-python-flask_upload/blob/master/images/4.png)
+4. 自动跳转到send_code，显示运行结果，正确和错误都会输出。当前显示为正确输出。
+![Image text](https://github.com/magic-chenyang/docker-python-flask_upload/blob/master/images/3.png)
