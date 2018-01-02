@@ -3,12 +3,16 @@ from flask import Flask,render_template,jsonify,request,send_from_directory
 import time
 import os
 import base64
+import zipfile
+from wtforms.fields import SubmitField
+import docker
 
+cli = docker.from_env()
 app = Flask(__name__)
 UPLOAD_FOLDER='upload'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 basedir = os.path.abspath(os.path.dirname(__file__))
-ALLOWED_EXTENSIONS = set(['txt','png','jpg','xls','JPG','PNG','xlsx','gif','GIF'])
+ALLOWED_EXTENSIONS = set(['txt','png','jpg','xls','JPG','PNG','xlsx','gif','GIF','zip'])
 
 # 用于判断文件后缀
 def allowed_file(filename):
@@ -44,5 +48,35 @@ def api_upload():
     else:
         return jsonify({"errno": 1001, "errmsg": u"failed"})
 
+@app.route("/send_code", methods=['POST'])
+def execute_code():
+    create_container()
+    output = create_container()
+    return output
+
+
+def create_container():
+    py_container = cli.containers.run(
+         image='python:3',
+         command='python main.py',
+         volumes={'python_test': {
+                 'bind': '/opt',
+                 'mode': 'rw',
+                 }
+             },
+         name='hello_word_from_docker',
+         working_dir='/opt'
+    )
+
+    for py_container in cli.containers.list(filters={'status':'exited'}):
+          with open('/opt/py_log.txt', 'a') as f:
+                  f.write(str(py_container.logs()))
+
+    output = py_container.logs()
+    py_container.remove()
+
+    #return "From docker: {}".format(output.strip())
+    return output
+
 if __name__ == '__main__':
-    app.run(debug=True, port=9990)
+    app.run(debug=True, port=9990,host='0.0.0.0')
