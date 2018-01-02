@@ -27,6 +27,6 @@
 ![Image text](https://github.com/magic-chenyang/docker-python-flask_upload/blob/master/images/2.png)
 
 
-4. 自动跳转到send_code，显示运行结果，正确和错误都会输出。当前显示为正确输出。
+4. 容器执行结束，自动跳转到send_code，显示运行结果，正确和错误都会输出。当前显示为正确输出。
 
 ![Image text](https://github.com/magic-chenyang/docker-python-flask_upload/blob/master/images/3.png)
