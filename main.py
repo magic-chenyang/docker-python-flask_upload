@@ -47,7 +47,7 @@ def api_upload():
         return render_template('result.html',var1=fname)
     else:
         return jsonify({"errno": 1001, "errmsg": u"failed"})
-
+# 运行容器，执行py
 @app.route("/send_code", methods=['POST'])
 def execute_code():
     create_container()
@@ -67,7 +67,7 @@ def create_container():
          name='hello_word_from_docker',
          working_dir='/opt'
     )
-
+    #备份日志
     for py_container in cli.containers.list(filters={'status':'exited'}):
           with open('/opt/py_log.txt', 'a') as f:
                   f.write(str(py_container.logs()))
